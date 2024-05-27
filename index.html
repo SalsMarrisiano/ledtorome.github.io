@@ -1,0 +1,144 @@
+<html> 
+  <script>
+    const path = require('path');
+
+// Get the directory of the current script
+const currentDirectory = __dirname;
+console.log('Current directory:', currentDirectory);
+
+// Construct a file path relative to the current directory
+const filePath = path.join(__dirname, 'styles.css');
+console.log('File path:', filePath);
+  </script> 
+  <script>
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+const PORT = 3000;
+const PUBLIC_DIR = 'public';
+
+const server = http.createServer((req, res) => {
+  let filePath = path.join(__dirname, PUBLIC_DIR, req.url);
+
+  // Check if the request is for the root URL
+  if (req.url === '/') {
+    filePath = path.join(__dirname, PUBLIC_DIR, 'index.html');
+  }
+
+  fs.readFile(filePath, (err, content) => {
+    if (err) {
+      if (err.code === 'ENOENT') {
+        // File not found
+        res.writeHead(404);
+        res.end('404 Not Found');
+      } else {
+        // Server error
+        res.writeHead(500);
+        res.end('Server Error');
+      }
+    } else {
+      // Serve the file
+      const extname = path.extname(filePath);
+      let contentType = 'text/html';
+      // Map file extensions to content types
+      switch (extname) {
+        case '.css':
+          contentType = 'text/css';
+          break;
+        case '.js':
+          contentType = 'text/javascript';
+          break;
+        case '.png':
+          contentType = 'image/png';
+          break;
+        case '.jpg':
+          contentType = 'image/jpeg';
+          break;
+        case '.avif':
+          contentType = "image/avif";
+          break;
+        // Add more content type mappings as needed
+      }
+      res.writeHead(200, { 'Content-Type': contentType });
+      res.end(content, 'utf-8');
+    }
+  });
+});
+
+server.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}/`);
+});
+  </script> 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Led to Rome Official</title>
+    </head>
+    <body>
+       
+        <link rel="stylesheet" href="styles.css">
+        <div class="header">
+            <header>
+                <article class="item">
+                <h1 class="title">Led to Rome</h1> 
+                <a href="#music-section"><h3 class="floating-text"><div class="snd">Music</div></h3></a>
+                <a href="#video-section"><h3 class="floating-text"><div class="abt">Videos</div></h3></a>
+            </article> 
+                </header>
+        </div>
+        <section>
+          <div class="image-overlay">
+            <div class="img"><image src="Bandimg.avif"> </div>
+            <div class="content"><p>"Led to Rome"</p></div>
+          </div>
+        </section>  
+        <div id="music-section">
+        <section>
+            <h1 class="h">-</h1>
+            <h3 class="special">Music</h3>
+            <p class="wm">&copy;</p>
+            <div class="vidone"><video src ="" alt="Stay"></video></div>
+            <p class="wm">Stay</p>
+            <p class="wm">Worry</p>
+            <script>
+                // Get the "Music" link element
+                const musicLink = document.querySelector('a[href="#music-section"]');
+            
+                // Get the music section element
+                const musicSection = document.getElementById('music-section');
+            
+                // Add the click event listener
+                musicLink.addEventListener('click', (event) => {
+                  event.preventDefault(); // Prevent the default link behavior
+                  musicSection.scrollIntoView({ behavior: 'smooth' }); // Smooth scroll to the music section
+                });
+              </script>
+        </section>
+    </div>
+    <div id="video-section">
+        <section>
+            <div class="wrapper"> 
+              <div class="about">
+                <h3 class="specialtwo">Videos</h3>
+                <p class="specialthree">We are a band of 5 members. Three singers and two accompianists.</p>
+              </div>
+            </div>
+            <script>
+                const videosLink = document.querySelector('a[href="#video-section"]');
+                const videosSection = document.getElementById('video-section');
+                
+                videosLink.addEventListener('click', (event) => {
+                  event.preventDefault(); // Prevent the default link behavior
+                  videosSection.scrollIntoView({ behavior: 'smooth' }); // Smooth scroll to the music section
+                });
+            </script>
+          </section>  
+          </div>
+          <section>
+            <footer class="ftr">
+            <p>&copy; 2024 LedtoRome. All rights reserved.</p>
+            </footer>
+          </section>
+    </body>
+</html>
