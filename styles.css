@@ -214,4 +214,6 @@ section .content {
 }
 section .vidone {
   width: 50%;
+  margin: auto;
+  padding: 8px;
 }
